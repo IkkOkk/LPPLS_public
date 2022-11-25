@@ -18,7 +18,6 @@ class LPPLS_FACTOR(object):
         Args:
             observations (np.array,pd.DataFrame): 2xM matrix with timestamp and observed value.
         """
-        #TODO:引数の型を変える
         # assert isinstance(observations, (np.ndarray, pd.DataFrame)), \
         #     f'Expected observations to be <pd.DataFrame> or <np.ndarray>, got :{type(observations)}'
 
@@ -49,8 +48,6 @@ class LPPLS_FACTOR(object):
 
         rM = self.matrix_equation(observations, tc, m, w)
         a, b, c1, c2, d = rM[:, 0].tolist()
-        # print('type', type(res))
-        # print('func_restricted', res)
 
         delta = [self.lppls_factor(t, v, tc, m, w, a, b, c1, c2, d) for t, v in zip(observations[0, :], observations[2, :])]
         delta = np.subtract(delta, observations[1, :])
@@ -69,7 +66,6 @@ class LPPLS_FACTOR(object):
         V = observations[2]
         N = len(T)
 
-        # @TODO make taking tc - t or |tc - t| configurable
         dT = np.abs(tc - T)
         phase = np.log(dT)
 
@@ -127,7 +123,6 @@ class LPPLS_FACTOR(object):
         if obs is None:
             obs = self.observations
 
-        # print('obs',obs)
         search_count = 0
         # find bubble
         while search_count < max_searches:
@@ -135,7 +130,6 @@ class LPPLS_FACTOR(object):
             t1 = obs[0, 0]
             t2 = obs[0, -1]
 
-            # @TODO make configurable
             # set random initialization limits for non-linear params
             init_limits = [
                 (max(t2 - 60, t2 - 0.5 * (t2 - t1)),

@@ -51,8 +51,6 @@ class LPPLS(object):
 
         rM = self.matrix_equation(observations, tc, m, w)
         a, b, c1, c2 = rM[:, 0].tolist()
-        # print('type', type(res))
-        # print('func_restricted', res)
 
         delta = [self.lppls(t, tc, m, w, a, b, c1, c2) for t in observations[0, :]]
         delta = np.subtract(delta, observations[1, :])
@@ -70,7 +68,6 @@ class LPPLS(object):
         P = observations[1]
         N = len(T)
 
-        # @TODO make taking tc - t or |tc - t| configurable
         dT = np.abs(tc - T)
         phase = np.log(dT)
 
@@ -120,8 +117,6 @@ class LPPLS(object):
         if obs is None:
             obs = self.observations
 
-
-        # print('obs',obs)
         search_count = 0
         # find bubble
         while search_count < max_searches:
@@ -129,7 +124,6 @@ class LPPLS(object):
             t1 = obs[0, 0]
             t2 = obs[0, -1]
 
-            # @TODO make configurable
             # set random initialization limits for non-linear params
             init_limits = [
                 (max(t2 - 60, t2 - 0.5 * (t2 - t1)), min(t2 + 252, t2 + 0.5 * (t2 - t1))),  # tc
@@ -179,8 +173,6 @@ class LPPLS(object):
             tc = cofs.x[0]
             m = cofs.x[1]
             w = cofs.x[2]
-            # r =
-            # m_f =
 
             rM = self.matrix_equation(observations, tc, m, w)
             a, b, c1, c2 = rM[:, 0].tolist()
